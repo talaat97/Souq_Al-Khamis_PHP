@@ -1,0 +1,24 @@
+<?php
+
+include "../connect.php";
+
+
+$userid = filterRequest("userid");
+$name   = filterRequest("name");
+$city   = filterRequest("city");
+$street = filterRequest("street");
+$lat    = filterRequest("lat");
+$lang   = filterRequest("lng");
+
+
+$data = array(
+    "address_userid"=>$userid,
+    "address_name"=>$name,
+    "address_city"=>$city,
+    "address_street"=>$street,
+    "address_lat"=>$lat,
+    "address_lang"=>$lang,
+
+);
+
+insertData("address",$data);
