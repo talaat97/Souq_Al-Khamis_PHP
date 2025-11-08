@@ -39,4 +39,34 @@ This backend powers **three frontend applications** through a single API:
 ---
 
 ## 📁 Project Structure
+📦 project-root
+┣ 📂 api
+┃ ┣ 📂 auth
+┃ ┣ 📂 user
+┃ ┣ 📂 delivery
+┃ ┣ 📂 admin
+┃ ┣ 📂 utils
+┃ ┗ 📜 config.php
+┣ 📂 upload
+┃ ┣ 📂 categories (SVG icons)
+┃ ┗ 📂 items (PNG product images)
+┣ 📜 .htaccess
+┣ 📜 db_connection.php
+┣ 📜 index.php
+┗ 📜 README.md
+
+
+
+🖼️ **Upload Folder**  
+- `/upload/categories/` → Contains category icons in `.svg` format.  
+- `/upload/items/` → Contains product images in `.png` format.  
+
+---
+
+## ⚙️ Installation & Setup
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/yourusername/your-repo-name.git
+   cd your-repo-name
 
