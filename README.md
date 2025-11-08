@@ -70,3 +70,99 @@ This backend powers **three frontend applications** through a single API:
    git clone https://github.com/yourusername/your-repo-name.git
    cd your-repo-name
 
+Import the Database
+
+Import the .sql file from the /database folder into your MySQL server.
+
+Configure Database
+
+Open db_connection.php and update:
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "ecommerce_db";
+
+
+Set Up FCM
+
+Add your Firebase Cloud Messaging credentials inside your notification logic or config file.
+
+Run on Localhost
+
+Move project to htdocs (XAMPP) or your web server root.
+
+Access via:
+👉 http://localhost/your-repo-name/api/
+
+📡 API Endpoints (Examples)
+Method	Endpoint	Description
+POST	/api/auth/login.php	Login user
+POST	/api/auth/register.php	Register new user
+POST	/api/auth/forget_password.php	Reset password
+GET	/api/products/list.php	Get all products
+POST	/api/items/add.php	Add new item
+POST	/api/cart/add.php	Add item to cart
+POST	/api/order/create.php	Create new order
+POST	/api/notifications/send.php	Send FCM notification
+
+(Add more endpoints or link to your Postman Collection if available.)
+
+🔒 Authentication Flow
+
+Upon successful login, users receive a JWT token.
+
+Each secured API request must include the token in the header:
+
+Authorization: Bearer YOUR_TOKEN_HERE
+
+🔔 FCM Notification Flow
+
+When an order is created or updated, the system sends an FCM notification to:
+
+The Admin App (for new orders)
+
+The Delivery App (for order assignments)
+
+The User App (for order status updates)
+
+This ensures real-time updates across all connected applications.
+
+🧠 Future Improvements
+
+📈 Advanced analytics for admin dashboard
+
+💬 Real-time chat between users and delivery agents
+
+🌍 Multi-language support
+
+☁️ Cloud storage integration for images
+
+🤝 Contributing
+
+Contributions are always welcome!
+If you’d like to enhance or fix something:
+
+Fork this repo
+
+Create a branch (feature/your-feature-name)
+
+Commit your changes
+
+Submit a Pull Request
+
+📬 Contact
+
+👤 Talaat Amr Talaat Abazaa
+📧 Email:talaatabazaa10@gmail.com
+
+🔗 GitHub: [yourusername](https://github.com/talaat97/)
+
+⭐ If you like this project, don’t forget to give it a star on GitHub! ⭐
+
+
+---
+
+Would you like me to:
+- Add a **diagram (API + FCM flow)** in Markdown (using ASCII or generated image)?  
+- Or include a **sample `.env` / config section** for better setup documentation?
