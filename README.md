@@ -160,8 +160,3 @@ Submit a Pull Request
 ⭐ If you like this project, don’t forget to give it a star on GitHub! ⭐
 
 
----
-
-Would you like me to:
-- Add a **diagram (API + FCM flow)** in Markdown (using ASCII or generated image)?  
-- Or include a **sample `.env` / config section** for better setup documentation?
