@@ -31,7 +31,6 @@ This backend powers **three frontend applications** through a single API:
 | Language | **PHP (Native)** |
 | Database | **MySQL** |
 | Server | **Apache / Nginx** |
-| Authentication | **JWT (JSON Web Token)** |
 | Notifications | **Firebase Cloud Messaging (FCM)** |
 | Architecture | RESTful API |
 | Format | JSON Responses |
@@ -70,11 +69,11 @@ This backend powers **three frontend applications** through a single API:
    git clone https://github.com/yourusername/your-repo-name.git
    cd your-repo-name
 
-Import the Database
+2. **Import the Database**
 
 Import the .sql file from the /database folder into your MySQL server.
 
-Configure Database
+3. **Configure Database**
 
 Open db_connection.php and update:
 
@@ -84,11 +83,11 @@ $password = "";
 $dbname = "ecommerce_db";
 
 
-Set Up FCM
+4. **Set Up FCM**
 
 Add your Firebase Cloud Messaging credentials inside your notification logic or config file.
 
-Run on Localhost
+5. **Run on Localhost**
 
 Move project to htdocs (XAMPP) or your web server root.
 
@@ -98,13 +97,13 @@ Access via:
 📡 API Endpoints (Examples)
 Method	Endpoint	Description
 POST	/api/auth/login.php	Login user
-POST	/api/auth/register.php	Register new user
+POST	/api/auth/signup.php	Register new user
 POST	/api/auth/forget_password.php	Reset password
 GET	/api/products/list.php	Get all products
 POST	/api/items/add.php	Add new item
 POST	/api/cart/add.php	Add item to cart
-POST	/api/order/create.php	Create new order
-POST	/api/notifications/send.php	Send FCM notification
+POST	/api/order/checkout.php	Create new order
+POST	/api/notifications/view.php	Send FCM notification
 
 (Add more endpoints or link to your Postman Collection if available.)
 
