@@ -16,35 +16,73 @@ function filterRequest($requestname)
     return htmlspecialchars(strip_tags($_POST[$requestname]));
 }
 
-function getAllData($table, $where = null, $values = null, $json = true)
-{
+function getAllData(
+    string $table,
+    string $orderBy = null,
+    int $offset = null,
+    int $limit = null,
+    string $where = null,
+    array $values = [],
+    bool $json = true
+) {
     global $con;
-    $data = array();
-    if ($where == null) {
-        $stmt = $con->prepare("SELECT  * FROM $table");
-    } else {
-        $stmt = $con->prepare("SELECT  * FROM $table WHERE   $where ");
+
+    // ⚠️ Basic validation (VERY IMPORTANT)
+    if (!preg_match('/^[a-zA-Z0-9_]+$/', $table)) {
+        die("Invalid table name");
     }
 
+    $sql = "SELECT * FROM $table";
 
-    $stmt->execute($values);
+    // WHERE
+    if ($where !== null) {
+        $sql .= " WHERE $where";
+    }
+
+    // ORDER BY
+    if ($orderBy !== null) {
+        if (!preg_match('/^[a-zA-Z0-9_]+$/', $orderBy)) {
+            die("Invalid order by column");
+        }
+        $sql .= " ORDER BY $orderBy DESC";
+    }
+
+    // LIMIT & OFFSET
+    if ($limit !== null && $offset !== null) {
+        $sql .= " LIMIT :offset, :limit";
+    }
+
+    $stmt = $con->prepare($sql);
+
+    // Bind WHERE values
+    if (!empty($values)) {
+        foreach ($values as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+    }
+
+    // Bind pagination values
+    if ($limit !== null && $offset !== null) {
+        $stmt->bindValue(':offset', (int) $offset, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
+    }
+
+    $stmt->execute();
+
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $count = $stmt->rowCount();
-    if ($json == true) {
-        if ($count > 0) {
-            echo json_encode(array("status" => "success", "data" => $data));
-        } else {
-            echo json_encode(array("status" => "failure"));
-        }
-    } else {
-        if ($count > 0) {
-            return $data;
-        } else {
-            echo json_encode(array("status" => "failure"));
-        }
-    }
+    $count = count($data);
 
+    if ($json) {
+        echo json_encode([
+            "status" => $count > 0 ? "success" : "failure",
+            "count" => $count,
+            "data" => $data
+        ]);
+    } else {
+        return $data;
+    }
 }
+
 
 function getData($table, $where = null, $values = null, $json = true)
 {
