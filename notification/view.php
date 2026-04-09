@@ -4,7 +4,7 @@ include "../connect.php";
 $userid = filterRequest("userid");
 
 
-getAllData("notification", "notification_userid = $userid", null, true);
+getAllData("notification", null, null, null, "notification_userid = $userid", [], true);
 
 
 

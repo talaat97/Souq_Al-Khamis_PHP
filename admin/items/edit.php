@@ -1,103 +1,61 @@
 <?php
-
 include "../../connect.php";
 
-/*
-$table = "categories";
-//id of old category edit 
-$id = filterRequest("id");
-//patametars of new category edit
+// ── 1. Input ──────────────────────────────────────────
+$table = "iteams";
+$id = (int) filterRequest("id");       // cast to int = safe from SQL injection
 $name = filterRequest("name");
 $nameAr = filterRequest("nameAr");
-$imageold = filterRequest("imageold");
-$image = imageUpload("../../upload/categories/", "file");
-$datetime = date("Y-m-d H:i:s");
-
-
-// احصل على البيانات القديمة
-if ($oldData["status"] === "failure") {
-    echo json_encode(["status" => "fail", "message" => "Category not found"]);
-    exit;
-}
-// تحقق من نجاح رفع الصورة
-if ($imageName === "Empty") {
-    echo json_encode(array("status" => "failure", "message" => "No file uploaded", ));
-    exit;
-} elseif ($imageName === "EXT") {
-    echo json_encode(array("status" => "failure", "message" => "File not in support formate", ));
-    exit;
-} elseif ($imageName === "size") {
-    echo json_encode(array("status" => "size", "message" => "File size is too large", ));
-    exit;
-}
-
-
-$data = array(
-    'category_name' => $name !== null && $name !== '' ? $name : $oldData['data']['category_name'],
-    'categories_name_ar' => $nameAr !== null && $nameAr !== '' ? $nameAr : $oldData['data']['categories_name_ar'],
-    'categories_image' => $image !== null && $image !== '' ? $image : $oldData['data']['categories_image'],
-    'categories_datetime' => $datetime !== null && $datetime !== '' ? $datetime : $oldData['data']['categories_datetime'],
-);
-
-updateData($table, $data, "`categories_id` = $id", );
-
-deleteFile("../../upload/categories/", $oldData['data']['categories_image']);
-*/
-
-
-
-$table = "iteams";
-
-
-$id = filterRequest("id");
-
-$name = filterRequest("name");
-
-$namear = filterRequest("namear");
-
 $desc = filterRequest("desc");
-$descar = filterRequest("descar");
+$descAr = filterRequest("descAr");
+$count = (int) filterRequest("count");
+$price = (float) filterRequest("price");
+$discount = (float) filterRequest("discount");
+$active = (int) filterRequest("active");
+$imageOld = filterRequest("imageold");
 
-$count = filterRequest("count");
-$active = filterRequest("active");
-$price = filterRequest("price");
-$discount = filterRequest("discount");
-
-$catid = filterRequest("catid");
-
-$imageold = filterRequest("imageold");
-
-
-$res = imageUpload("../../upload/iteams/", "files");
-echo "the res value ======================================> $res";
-if ($res == "Empty") {
-    $data = array(
-        "iteams_name" => $name,
-        "iteams_name_ar" => $namear,
-        "iteams_dec" => $desc,
-        "iteams_dec_ar" => $descar,
-        "iteams_count" => $count,
-        "iteams_price" => $price,
-        "iteams_discount" => $discount,
-        "iteams_active" => $active,
-        "iteams_cat" => $catid
-    );
-} else {
-    deleteFile("../../upload/iteams", $imageold);
-    $data = array(
-        "iteams_name" => $name,
-        "iteams_name_ar" => $namear,
-        "iteams_dec" => $desc,
-        "iteams_dec_ar" => $descar,
-        "iteams_count" => $count,
-        "iteams_price" => $price,
-        "iteams_discount" => $discount,
-        "iteams_active" => $active,
-        "iteams_image" => $res,
-        "iteams_cat" => $catid
-    );
+// ── 2. Validate ───────────────────────────────────────
+if (!$id || empty($name) || empty($nameAr) || $price <= 0) {
+    echo json_encode(["status" => "failure", "message" => "Invalid input"]);
+    exit;
 }
 
+// ── 3. Handle image ───────────────────────────────────
+$uploadPath = "../../upload/iteams/";
+$res = imageUpload($uploadPath, "file");
 
+if ($res == "size") {
+    echo json_encode(["status" => "failure", "message" => "File size is too large"]);
+    exit;
+}
+if ($res == "EXT") {
+    echo json_encode(["status" => "failure", "message" => "Invalid file extension"]);
+    exit;
+}
 
-updateData($table, $data, "iteams_id = $id");
+// ── 4. Build data ─────────────────────────────────────
+$data = [
+    "iteams_name" => $name,
+    "iteams_name_ar" => $nameAr,
+    "iteams_dec" => $desc,
+    "iteams_dec_ar" => $descAr,
+    "iteams_count" => $count,
+    "iteams_price" => $price,
+    "iteams_discount" => $discount,
+    "iteams_active" => $active,
+];
+
+// Only update image if new one was uploaded
+if ($res != "Empty") {
+    deleteFile($uploadPath, $imageOld);
+    $data["iteams_image"] = $res;
+}
+
+// ── 5. Update & respond ───────────────────────────────
+$updated = updateData($table, $data, "iteams_id = $id"); // make sure updateData uses prepared statements
+
+if ($updated) {
+    echo json_encode(["status" => "success", "message" => "Item updated successfully"]);
+} else {
+    echo json_encode(["status" => "failure", "message" => "Update failed"]);
+}

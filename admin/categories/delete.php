@@ -12,11 +12,11 @@ $countdata = deleteData("categories", "`categories_id` = $id", false);
 
 // التحقق من نتائج الحذف وإرسال الرد المناسب
 if ($countImage == 0 && $countdata == 0) {
-    echo json_encode(array("failure" => "delete data and image failure"));
+    echo json_encode(array("status" => "failure", "message" => "delete data and image failure"));
 } elseif ($countImage > 0 && $countdata == 0) {
-    echo json_encode(array("failure" => "delete image only edit data input id or name or Arname"));
+    echo json_encode(array("status" => "failure", "message" => "delete image only edit data input id or name or Arname"));
 } elseif ($countImage == 0 && $countdata > 0) {
-    echo json_encode(array("failure" => "delete data only edit the image name or path to can delete it"));
+    echo json_encode(array("status" => "failure", "message" => "delete data only edit the image name or path to can delete it"));
 } else {
-    echo json_encode(array("status" => "success delete data and image"));
+    echo json_encode(array("status" => "success", "message" => "delete data and image"));
 }

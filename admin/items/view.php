@@ -1,5 +1,22 @@
 <?php
 
-include "../../connect.php" ; 
+include "../../connect.php";
 
-getAllData("items1view") ; 
+// استقبال القيم من الـ frontend
+$limit = filterRequest("limit");
+$offset = filterRequest("offset");
+
+// تأمين القيم كـ أرقام صحيحة
+$limit = (int) $limit;
+$offset = (int) $offset;
+
+
+getAllData(
+    table: "iteams1view",
+    where: null,
+    values: [],
+    orderBy: "iteams_id",
+    offset: $offset,
+    limit: $limit,
+    json: true
+);

@@ -3,4 +3,4 @@
 include "../connect.php";
 
 $userid = filterRequest("userid");
-getAllData("myfavorite", "favorite_userid = ?", array($userid));
+getAllData("myfavorite", null, null, null, "favorite_userid = $userid", [], true);

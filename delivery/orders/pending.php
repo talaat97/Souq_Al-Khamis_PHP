@@ -2,7 +2,7 @@
 
 include "../../connect.php";
 
-getAllData("ordersview","order_status = 2 AND order_type = 0",null);
+getAllData("ordersview", null, null, null, "order_status = 2 AND order_type = 0");
 
 
 

@@ -23,7 +23,7 @@ function getAllData(
     int $limit = null,
     string $where = null,
     array $values = [],
-    bool $json = true
+    bool $json = true,
 ) {
     global $con;
 
@@ -124,7 +124,7 @@ function insertData($table, $data, $json = true)
     $count = $stmt->rowCount();
     if ($json == true) {
         if ($count > 0) {
-            echo json_encode(array("status" => "success"));
+            echo json_encode(array("status" => "success", "data" => $data));
         } else {
             echo json_encode(array("status" => "failure"));
         }
@@ -167,7 +167,7 @@ function updateData($table, $data, $where, $json = true)
     $count = $stmt->rowCount();
     if ($json == true) {
         if ($count > 0) {
-            echo json_encode(array("status" => "success"));
+            echo json_encode(array("status" => "success", "success", "data" => $data));
         } else {
             echo json_encode(array("status" => "failure"));
         }
@@ -193,15 +193,15 @@ function imageUpload($dir, $imageRequest)
 {
     global $msgError;
 
-    // تحقق إن الملف موجود في $_FILES
     if (isset($_FILES[$imageRequest])) {
-        $imagename = rand(1000, 10000) . $_FILES[$imageRequest]['name'];
         $imagetmp = $_FILES[$imageRequest]['tmp_name'];
         $imagesize = $_FILES[$imageRequest]['size'];
-        $allowExt = array("svg", "jpg", "png", "gif", "mp3", "pdf", "jpeg");
-        $strToArray = explode(".", $imagename);
-        $ext = end($strToArray);
-        $ext = strtolower($ext);
+
+        // ── Clean name ────────────────────────────────
+        $ext = strtolower(pathinfo($_FILES[$imageRequest]['name'], PATHINFO_EXTENSION));
+        $imagename = uniqid() . '.' . $ext; // e.g → 6579f3a2c1d4e.jpg ✅
+
+        $allowExt = ["svg", "jpg", "png", "gif", "mp3", "pdf", "jpeg"];
 
         if (!empty($imagename) && !in_array($ext, $allowExt)) {
             $msgError = "EXT";
@@ -220,14 +220,15 @@ function imageUpload($dir, $imageRequest)
     } else {
         return "Empty";
     }
-
-
 }
 
 function deleteFile($dir, $imagename)
 {
-    if (file_exists($dir . "/" . $imagename)) {
-        unlink($dir . "/" . $imagename);
+    $dir = rtrim($dir, '/'); // remove trailing slash if exists
+    $path = $dir . '/' . $imagename;
+
+    if (file_exists($path)) {
+        unlink($path);
         return 1;
     }
     return 0;

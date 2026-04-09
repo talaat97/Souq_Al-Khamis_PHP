@@ -1,6 +1,6 @@
 CREATE OR REPLACE VIEW iteams1view AS
 SELECT items.* , categories. * FROM items
-INNER JOIN categories on items. itens_cat = categories.categories_id;
+INNER JOIN categories on items. items_cat = categories.categories_id;
 
 
 SELECT iteams1view.*,1 as favorite , (iteams_price - iteams_price * iteams_discount/100)as iteamPriceDescount 
@@ -36,7 +36,7 @@ CREATE  or REPLACE view ordersview AS
 SELECT customerorders.* , address.* FROM customerorders 
 LEFT JOIN address ON address.address_id = customerorders.order_address ;
 
-CREATE or REPLACE VIEW orderDetailsView AS
+CREATE or REPLACE view orderDetailsView AS
 SELECT COUNT(cart.cart_itemsid) as countItems, ordersview.*, iteams.*,cart.*
 from cart INNER JOIN iteams on cart.cart_itemsid = iteams.iteams_id     
 inner join ordersview on ordersview.order_id = cart.cart_orders

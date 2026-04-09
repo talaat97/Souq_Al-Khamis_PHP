@@ -4,12 +4,14 @@ include "../../connect.php";
 
 
 $email = filterRequest("email");
+$password = filterRequest("password");
 
-$password = sha1($_POST["password"]);
+//$password = sha1($_POST["password"]);
 
 // $stml = $con->prepare(" SELECT * FROM `users` WHERE (`user_email` = ? AND `user_password` = ? AND users_approve = 1 )");
 // $stml->execute(array($email, $password));
 // $count = $stml->rowCount();
 
 
-getData("delivery", "(`delivery_email` = ? AND `delivery_password` = ?)", array($email, $password));
+// getData("delivery", "(`delivery_email` = ? AND `delivery_password` = ?)", array($email, $password));
+getData("delivery", "(`delivery_email` = ? AND `delivery_password` = ? AND delivery_approve = 1)", array($email, $password));

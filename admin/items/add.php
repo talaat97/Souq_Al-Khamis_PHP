@@ -8,11 +8,11 @@ $table = "iteams";
 
 $name = filterRequest("name");
 
-$namear = filterRequest("namear");
+$namear = filterRequest("nameAr");
 
 $desc = filterRequest("desc");
 
-$descar = filterRequest("descar");
+$descar = filterRequest("descAr");
 
 $count = filterRequest("count");
 
@@ -20,12 +20,14 @@ $price = filterRequest("price");
 
 $discount = filterRequest("discount");
 
+$active = filterRequest("active");
+
 $catid = filterRequest("catid");
 
-$datenow = filterRequest("datenow");
+$datenow = date("Y-m-d H:i:s");
 
 
-$imagename = imageUpload("../../upload/iteams/", "files");
+$imagename = imageUpload("../../upload/iteams/", "file");
 
 $data = array(
     "iteams_name" => $name,
@@ -35,7 +37,7 @@ $data = array(
     "iteams_count" => $count,
     "iteams_price" => $price,
     "iteams_discount" => $discount,
-    "iteams_active" => "1",
+    "iteams_active" => $active,
     "iteams_image" => $imagename,
     "iteams_cat" => $catid,
     "iteams_date" => $datenow

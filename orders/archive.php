@@ -3,7 +3,7 @@
 include "../connect.php";
 
 $userid = filterRequest("userId");
-getAllData("ordersview","order_userid = $userid AND order_status = 4",null);
+getAllData("ordersview", null, null, null, "order_userid = $userid AND order_status = 4", [], false);
 
 
 

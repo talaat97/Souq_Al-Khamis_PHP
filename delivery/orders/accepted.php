@@ -4,7 +4,7 @@ include "../../connect.php";
 
 $id = filterRequest("id");
 
-getAllData("ordersview","order_status = 3 AND order_delivery = $id",null);
+getAllData("ordersview", null, null, null, "order_status = 3 AND order_delivery = $id");
 
 // order status for user 
 //1 => 'wait to approve', yellow

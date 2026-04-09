@@ -3,7 +3,8 @@
 include "../connect.php";
 $userid = filterRequest("userid");
 
-$data = getAllData("cartView", "cart_userid = $userid", null, false);
+
+$data = getAllData("cartView", null, null, null, "cart_userid = $userid", [], false);
 
 $stmt = $con->prepare("SELECT SUM(cartview.iteamsPrice * cartview.countItems) as totalPrice , SUM(cartview.countItems) as iteamsCount FROM `cartview` 
 where cart_userid = $userid 

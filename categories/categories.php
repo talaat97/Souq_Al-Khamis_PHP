@@ -3,4 +3,4 @@
 include "../connect.php";
 
 
-getAllData("categories");
+getAllData("categories", null, null, null, null, [], false);

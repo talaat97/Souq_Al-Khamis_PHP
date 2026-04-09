@@ -11,12 +11,4 @@ $limit = (int) $limit;
 $offset = (int) $offset;
 
 
-getAllData(
-    table: "categories",
-    where: null,
-    values: [],
-    orderBy: "categories_id",
-    offset: $offset,
-    limit: $limit,
-    json: true
-);
+getAllData("categories", "categories_id", $offset, $limit, null, [], true);

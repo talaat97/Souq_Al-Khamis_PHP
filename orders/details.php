@@ -3,4 +3,4 @@
 include "../connect.php";
 
 $orderId = filterRequest("orderId");
-getAllData("orderdetailsview", "order_id = $orderId", null);
+getAllData("orderdetailsview", null, null, null, "order_id = $orderId", [], false);

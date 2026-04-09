@@ -3,8 +3,8 @@
 include "connect.php";
 
 $alldata = array();
-$categories = getAllData("categories", null, null, false);
-$iteams = getAllData("topsailerview", null, null, false);
+$categories = getAllData("categories", null, null, null, null, [], false);
+$iteams = getAllData("topsailerview", null, null, null, null, [], false);
 
 $alldata['status'] = "success";
 $alldata['categories'] = $categories;
