@@ -83,7 +83,58 @@ function getAllData(
     }
 }
 
+function getRandomData(
+    string $table,
+    int $limit = 10,
+    string $where = null,
+    array $values = [],
+    bool $json = false
+) {
+    global $con;
 
+    // Validate table name (security)
+    if (!preg_match('/^[a-zA-Z0-9_]+$/', $table)) {
+        die("Invalid table name");
+    }
+
+    $sql = "SELECT * FROM $table";
+
+    // WHERE condition
+    if ($where !== null) {
+        $sql .= " WHERE $where";
+    }
+
+    // Random ordering
+    $sql .= " ORDER BY RAND()";
+
+    // Limit
+    $sql .= " LIMIT :limit";
+
+    $stmt = $con->prepare($sql);
+
+    // Bind dynamic values (WHERE)
+    foreach ($values as $key => $value) {
+        $stmt->bindValue($key, $value);
+    }
+
+    // Bind limit
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+
+    $stmt->execute();
+
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if ($json) {
+        echo json_encode([
+            "status" => count($data) > 0 ? "success" : "failure",
+            "count" => count($data),
+            "data" => $data
+        ]);
+        return;
+    }
+
+    return $data;
+}
 function getData($table, $where = null, $values = null, $json = true)
 {
     global $con;

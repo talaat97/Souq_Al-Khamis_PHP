@@ -5,6 +5,7 @@ include "../connect.php";
 
 $username = filterRequest("username");
 $email = filterRequest("email");
+$deviceToken = filterRequest("deviceToken");
 $password = sha1($_POST["password"]);
 $phone = filterRequest("phone");
 $verfiycode = rand(10000, 99999);
@@ -22,6 +23,7 @@ if ($count > 0) {
         "user_password" => $password,
         "user_phone" => $phone,
         "user_verfiycode" => $verfiycode,
+        "user_devicetoken" => $deviceToken,
 
     );
     insertData("users", $date);
