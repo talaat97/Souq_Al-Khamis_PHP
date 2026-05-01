@@ -9,7 +9,4 @@ $data = array(
     'cart_itemsid' => $iteamsid,
 );
 
-$count = getData("cart", "`cart_userid` = $userid AND `cart_itemsid`=$iteamsid AND `cart_orders` = 0", null, false);
-
-
 insertData("cart", $data, true);

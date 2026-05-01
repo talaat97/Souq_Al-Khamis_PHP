@@ -1,7 +1,7 @@
 <?php
 
 // ==========================================================
-//  Copyright Reserved Wael Wael Abo Hamza (Course Ecommerce)
+//  Copyright Reserved Talaat Aabaza
 // ==========================================================
 // to can user FCM messaging
 require __DIR__ . '/vendor/autoload.php';

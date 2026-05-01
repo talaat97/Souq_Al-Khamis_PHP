@@ -6,24 +6,27 @@ $userid = filterRequest("userid");
 
 $data = getAllData("cartView", null, null, null, "cart_userid = $userid", [], false);
 
-$stmt = $con->prepare("SELECT SUM(cartview.iteamsPrice * cartview.countItems) as totalPrice , SUM(cartview.countItems) as iteamsCount FROM `cartview` 
-where cart_userid = $userid 
+
+$stmt = $con->prepare("SELECT SUM(cartview.iteamsPrice) as totalCartPrice , SUM(cartview.countItems) as totalCartIteamsCount FROM `cartview` 
+where cart_userid = $userid  
 GROUP by cart_userid");
 
 $stmt->execute();
-$priceAndCount = $stmt->fetch(PDO::FETCH_ASSOC);
+$totalCartPriceAndCount = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($data != null) {
     echo json_encode(
         array(
             "status" => "success",
             "Cartdata" => $data,
-            "priceAndCoun" => $priceAndCount,
+            "totalCartPriceAndCount" => $totalCartPriceAndCount,
         ),
     );
 } else {
-    array(
-        "status" => "faliure",
+    echo json_encode(
+        array(
+            "status" => "faliure",
+        ),
     );
 }
 
