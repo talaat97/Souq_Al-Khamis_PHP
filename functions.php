@@ -360,11 +360,10 @@ function sendFirebaseNotification($deviceToken = null, $title, $body, $topic = n
         $message = CloudMessage::withTarget('topic', $topic)
             ->withNotification($notification);
     }
-
+    $messaging->send($message);
     // إرسال الإشعار
     if ($json) {
         try {
-            $messaging->send($message);
             echo "sucecess send message ✅" . ($deviceToken ? 'Device Token' : "Topic: $topic");
         } catch (Exception $e) {
             echo "Erorr in send message ❌" . $e->getMessage();
@@ -374,9 +373,10 @@ function sendFirebaseNotification($deviceToken = null, $title, $body, $topic = n
 }
 
 
-function insertnotify($title, $body, $userid, $orderId, $deviceToken = null, $topic = null)
+function insertnotify($title, $body, $userid, $orderId, $deviceToken = null, $topic = null, $json = false)
 {
-    sendFirebaseNotification($deviceToken, $title, $body, $topic);
+
+    sendFirebaseNotification($deviceToken, $title, $body, $topic, $json);
     global $con;
     $stml = $con->prepare("INSERT INTO `notification`(`notification_title`, `notification_body`, `notification_userid`,`notification_orderId`) VALUES ('$title','$body','$userid','$orderId')");
     $stml->execute();

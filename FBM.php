@@ -1,4 +1,4 @@
 <?php
 include "connect.php";
-$deviceToken = filterRequest("deviseToken");
+$deviceToken = filterRequest("deviceToken");
 sendFirebaseNotification($deviceToken, 'hi', 'test the Firebase messigng', null, true);

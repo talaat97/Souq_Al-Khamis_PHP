@@ -14,7 +14,7 @@ $data = [
 $count = updateData("customerorders", $data, "order_id = $orderId AND order_status != 4 AND order_status != 0", false);
 
 if ($count > 0) {
-    insertnotify('Order Cancelled', 'Your order has been cancelled by the admin', $userid, $orderId, $deviceToken);
+    insertnotify('Order Cancelled', 'Your order has been cancelled by the admin', $userid, $orderId, $deviceToken , null);
     echo json_encode(["status" => "success"]);
 } else {
     echo json_encode(["status" => "failure"]);

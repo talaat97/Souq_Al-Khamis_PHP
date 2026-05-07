@@ -11,7 +11,7 @@ $data = array(
 $count = updateData("customerorders", $data, "order_id = $orderId AND order_status = 3", false);
 if ($count > 0) {
     //user
-    insertnotify('Thanks to user or servise', " your order hass ben delivery successfuly , order $orderId by $deliveyId", $userId, $orderId, $userDeviceToken);
+    insertnotify('Thanks to user or servise', " your order hass ben delivery successfuly , order $orderId by $deliveyId", $userId, $orderId, $userDeviceToken, null);
     //admin 
     sendFirebaseNotification(null, 'Hey!', "order $userId has been deliverd successfuly", "admin");
     echo json_encode(array("status" => "success"));

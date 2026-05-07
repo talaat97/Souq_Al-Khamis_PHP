@@ -15,7 +15,7 @@ $data = array(
 $count = updateData("customerorders", $data, "order_id = $orderId AND order_status = 2", false);
 if ($count > 0) {
     //user 
-    insertnotify('order on way', 'your order has been prepared and on way to shipping now', $userId, $orderId,  $userDeviceToken);
+    insertnotify('order on way', 'your order has been prepared and on way to shipping now', $userId, $orderId,  $userDeviceToken,null);
     // admin  
     sendFirebaseNotification(null, 'Hey!' ,"order $orderId has been approved by $deliveryName, wait preparing to be on way","admin");
     //an other delivery   
